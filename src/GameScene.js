@@ -46,12 +46,13 @@ export default class GameScene extends Phaser.Scene {
     start() {
         this.openedCard = null;
         this.openedCardsCount = 0;
+        this.cardPositions = this.initCardsPositions();
         this.initCards();
         this.showCards();
     }
 
     initCards() {
-        const cardsPositions = this.getCardsPositions();
+        const cardsPositions = Phaser.Utils.Array.Shuffle(this.cardPositions);
         this.cards.forEach(card => {
             card.init(cardsPositions.pop());
         })
@@ -105,7 +106,7 @@ export default class GameScene extends Phaser.Scene {
         }
     }
 
-    getCardsPositions() {
+    initCardsPositions() {
         const cardTexture = this.textures.get('back').getSourceImage();
         const cardWidth = cardTexture.width + 4;
         const cardHeight = cardTexture.height + 4;
@@ -125,6 +126,6 @@ export default class GameScene extends Phaser.Scene {
             }
         }
 
-        return Phaser.Utils.Array.Shuffle(positions);
+        return positions;
     }
 }
